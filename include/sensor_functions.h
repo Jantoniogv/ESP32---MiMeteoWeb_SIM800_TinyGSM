@@ -177,7 +177,7 @@ float read_voltaje()
 //***** Muestra los datos de los sensores en el monitor serie *****//
 void print_data_serial()
 {
-    DEBUG_PRINT("-------------------------------");
+    DEBUG_PRINT("\n-------------------------------");
 
     DEBUG_PRINT("Temperatura: " + String(temp) + " C "); // Muestra temperatura
     DEBUG_PRINT("Humedad: " + String(humedity) + " % "); // Muestra humedad

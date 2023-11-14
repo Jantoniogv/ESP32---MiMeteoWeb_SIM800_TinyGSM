@@ -160,8 +160,8 @@ void gprs_disconnect()
 
 void gprs_https_post(String payload)
 {
-    SERIAL_MON.println("---------------------------------");
-    write_log("---------------------------------");
+    SERIAL_MON.println("\n---------------------------------");
+    write_log("\n---------------------------------");
 
     SERIAL_MON.print("Connecting to server... ");
     write_log("Connecting to server... ");
