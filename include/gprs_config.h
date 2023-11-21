@@ -26,7 +26,7 @@
 // TTGO SIM800C pins
 #define MODEM_RST 5
 #define MODEM_PWRKEY 4
-#define MODEM_POWER_ON 25
+#define MODEM_POWER_ON 23 // 25 en 800C y 23 en 800L
 #define MODEM_TX 27
 #define MODEM_RX 26
 
