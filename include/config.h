@@ -5,6 +5,8 @@
 #include <Arduino.h>
 
 #include <WiFi.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
 
 // Set serial monitor
 #define SERIAL_MON Serial
@@ -16,16 +18,16 @@
 #define UART_BAUD 115200
 
 // Pluviometro pin
-#define RAIN_SENSOR 12
+#define RAIN_SENSOR 14
 
 // Definimos el pin 35 como pin de obtencion de datos de la veleta
 #define WIND_DIRECTION_SENSOR 35
 
 // Definimos el pin 34 como pin de obtencion de datos del anemometro
-#define ANEMOMETER_SENSOR 34
+#define ANEMOMETER_SENSOR 32
 
 // Definimos el pin 32 como medidor de voltaje
-#define VOLTAJE_BATTERY 32
+#define VOLTAJE_BATTERY 13
 
 //***** Establecemos los factores de tiempo *****//
 #define MINUTES_BETWEEN_SEND_DATA 10 /* Tiempo entre cada envio de datos */
@@ -124,7 +126,7 @@ int sensor_wind_max[] = {3110, 1540, 1770, 205, 240, 140, 630, 400, 1060, 880, 2
 String wind_direction = "--";
 
 // Constantes de medicion de voltaje
-const int voltaje_analog = 3410;
+const int voltaje_analog = 3450; // Valor analogico esperable para un voltaje de 4,2V pasado por un divisor de tension R_1=1000 ohm y R_2=2000 omh, con un V_out=2,8V
 const int voltaje_max_x_100 = 420;
 
 // Almacena la lectura del voltaje
@@ -132,6 +134,7 @@ float voltaje_bat_min = 3.0;
 float voltaje_bat = 0;
 
 //***** Estas variales se encargan de almacenar la ultima vez que se envio datos y el minuto actual *****//
+int diff_minutes_last_send_data = 0;
 RTC_DATA_ATTR int last_minute = 0;
 int current_minute = 0;
 

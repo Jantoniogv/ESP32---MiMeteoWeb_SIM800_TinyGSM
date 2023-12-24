@@ -13,7 +13,6 @@
 //***** Interrupcion que suma la precipitacion acumulada cada vez que se activa el pluviometro *****//
 void IRAM_ATTR sumLiters_m2()
 {
-
     current_t_liters = millis();
 
     if ((current_t_liters - last_t_liters) > measurements_t_liters)

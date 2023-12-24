@@ -20,7 +20,7 @@ String res_enter_point()
   String response = "Al entrar en esta pagina el ESP32 se mantiene despierto."
                     "Resetear o actualizar para volver al funcionamient normal\n\n"
                     "Para actualizar, entrar a IP/update\n"
-                    "Para reiniciar entrar a IP/reset\n\n\n"
+                    "Para reiniciar entrar a IP/restart\n\n\n"
                     "Ultimas medidas tomadas a %fecha%\n\n"
                     "Voltaje bateria: %vol_bat% V\n"
                     "Temperatura: %temp% C\n"
@@ -56,8 +56,8 @@ void init_server()
                { request->send(200, "text/plain", res_enter_point());
               keep_awake = true; });
 
-  server_AP.on("/reset", HTTP_GET, [](AsyncWebServerRequest *request)
-               { request->send(200, "text/plain", "Reiniciando..."); 
+  server_AP.on("/restart", HTTP_GET, [](AsyncWebServerRequest *request)
+               { request->send(200, "text/plain", "Reiniciando ESP32..."); 
               ESP.restart(); });
   // Inicia ElegantOTA
   AsyncElegantOTA.begin(&server_AP);
