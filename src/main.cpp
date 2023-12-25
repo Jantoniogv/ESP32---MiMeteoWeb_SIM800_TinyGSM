@@ -7,6 +7,7 @@
 #include "wifi_functions.h"
 #include "gprs_functions.h"
 #include "config.h"
+#include "check_init.h"
 #include "log.h"
 
 #define DEBUG
@@ -14,20 +15,24 @@
 
 void setup()
 {
+
+  //***** Establece la velocidad para el Monitor Serie *****//
+  SERIAL_MON.begin(UART_BAUD);
+  delay(100);
+
+  // Chequea el voltaje y la razon del inicio o del reinicio del ESP32
+  check_init();
+
   //***** Inicializamos el pin del pluviometro y su interrupcion *****//
   pinMode(RAIN_SENSOR, INPUT);
 
   attachInterrupt(RAIN_SENSOR, sumLiters_m2, FALLING);
   delay(50);
 
-  /*   //S Inicializamos el pin del anemometro y su interrupcion
+  /* Inicializamos el pin del anemometro y su interrupcion
     pinMode(ANEMOMETER_SENSOR, INPUT);
 
     attachInterrupt(ANEMOMETER_SENSOR, wind_velocity_interrupt, RISING); */
-
-  //***** Establece la velocidad para el Monitor Serie *****//
-  SERIAL_MON.begin(UART_BAUD);
-  delay(100);
 
   //***** Configuramos el modo sleep del ESP32 *****//
   esp_sleep_enable_timer_wakeup(TIME_SLEEP * S_a_M_FACTOR * uS_a_S_FACTOR);
@@ -36,14 +41,6 @@ void setup()
   esp_sleep_enable_ext0_wakeup(GPIO_NUM_14, 1);
 
   delay(100);
-
-  //***** Mide el voltaje de la bateria y si es inferior a 3.0 V, se duerme al ESP32 *****//
-  if (read_voltaje() < voltaje_bat_min)
-  {
-    DEBUG_PRINT("Voltaje bajo, ESP32 a dormir");
-
-    // esp_deep_sleep_start();
-  }
 
   //***** Suma la cantidad de un vaso del pluviometro, si este ha despertado al ESP32 *****//
   wakeup_reason = esp_sleep_get_wakeup_cause();
@@ -171,7 +168,7 @@ void loop()
     send_data_count++;
   }
   else
-  {DEBUG_PRINT("llega else...");
+  {
     //***** ESP32 a dormir si procede ******//
     if ((!keep_awake) && (diff_minutes_last_send_data > TIME_SERVER))
     {

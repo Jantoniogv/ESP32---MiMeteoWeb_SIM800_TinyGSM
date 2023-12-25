@@ -2,16 +2,6 @@
 
 #define _GPRS_FUNCTIONS_H
 
-#define TINY_GSM_MODEM_SIM800 // SIM800 Compatible with SIM800 AT instructions
-
-// See all AT commands, if wanted
-// #define DUMP_AT_COMMANDS
-
-// Define the serial console for debug prints, if needed
-#define TINY_GSM_DEBUG SERIAL_MON
-
-#define TINY_GSM_USE_GPRS true
-
 #include <Arduino.h>
 
 #include <ESP_SSLClient.h>
@@ -29,11 +19,10 @@ ESP_SSLClient ssl_client;
 
 void gprs_fail()
 {
-    DEBUG_PRINT("ESP32 a dormir tras dos minutos de espera a conexiones al servidor web propio");
-    write_log("ESP32 a dormir tras dos minutos de espera a conexiones al servidor web propio");
+    DEBUG_PRINT("ESP32 a dormir tras un minutos de espera a conexiones al servidor web propio");
+    write_log("ESP32 a dormir tras un minutos de espera a conexiones al servidor web propio");
 
     delay(TIME_SERVER * S_a_M_FACTOR * mS_a_S_FACTOR);
-
     esp_deep_sleep_start();
 }
 
@@ -148,6 +137,12 @@ void gprs_init()
     // Due to the basic_client pointer is assigned, to avoid dangling pointer, basic_client should be existed
     // as long as it was used by ssl_client for transportation.
     ssl_client.setClient(&basic_client);
+}
+
+void gprs_reset()
+{
+    pinMode(MODEM_RST, OUTPUT);
+    digitalWrite(MODEM_RST, HIGH);
 }
 
 void gprs_disconnect()

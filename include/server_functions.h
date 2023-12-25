@@ -6,6 +6,8 @@
 
 #include <ESPAsyncWebServer.h>
 #include <AsyncElegantOTA.h>
+
+#include "gprs_functions.h"
 #include "config.h"
 #include "time_npt.h"
 #include "log.h"
@@ -54,11 +56,11 @@ void init_server()
 {
   server_AP.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(200, "text/plain", res_enter_point());
-              keep_awake = true; });
+                 keep_awake = true; });
 
   server_AP.on("/restart", HTTP_GET, [](AsyncWebServerRequest *request)
                { request->send(200, "text/plain", "Reiniciando ESP32..."); 
-              ESP.restart(); });
+                 ESP.restart(); });
   // Inicia ElegantOTA
   AsyncElegantOTA.begin(&server_AP);
 

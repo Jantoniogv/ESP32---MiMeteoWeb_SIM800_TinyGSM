@@ -2,18 +2,15 @@
 
 #define _GPRS_CONFIG_H
 
+// Librerias incluidas
+#include <Arduino.h>
+
 #define TINY_GSM_MODEM_SIM800 // SIM800 Compatible with SIM800 AT instructions
 
 // See all AT commands, if wanted
 // #define DUMP_AT_COMMANDS
 
-// Define the serial console for debug prints, if needed
-#define TINY_GSM_DEBUG SERIAL_MON
-
 #define TINY_GSM_USE_GPRS true
-
-// Librerias incluidas
-#include <Arduino.h>
 
 #include <TinyGsmClient.h>
 
@@ -22,6 +19,9 @@
 
 #define DEBUG
 #include "debug_utils.h"
+
+// Define the serial console for debug prints, if needed
+#define TINY_GSM_DEBUG SERIAL_MON
 
 // TTGO SIM800C pins
 #define MODEM_RST 5
@@ -49,4 +49,4 @@ TinyGsm modem(SERIAL_AT);
 // Cliente de TinyGSM para la conexion GPRS
 TinyGsmClient basic_client(modem);
 
-#endif //_TIME_NPT_H_
+#endif //_GPRS_CONFIG_H

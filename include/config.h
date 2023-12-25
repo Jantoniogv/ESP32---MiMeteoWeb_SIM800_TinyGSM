@@ -40,6 +40,9 @@
 
 #define TIME_SLEEP 10 /* Tiempo que duerme en minutos */
 
+#define TIME_SLEEP_RESET_GPRS_FAIL 1 // Tiempo que duerme en segundos al reiniciar por software el ESP32,
+                                     // ya de otro modo el SIM800 no inicia correctamente
+
 #define TIME_SERVER 1 /* Tiempo que esta despierto esperando conexion el servidor web en segundos */
 
 //***** Numero de muestras *****//
@@ -142,9 +145,6 @@ int current_minute = 0;
 RTC_DATA_ATTR int send_data_count = 0;
 
 //***** Esta variable se encarga de establecer cuando se envia datos 'true' y cuando no 'false' ******//
-RTC_DATA_ATTR bool first_start = true;
-
-//***** Esta variable se encarga de establecer cuando se envia datos 'true' y cuando no 'false' ******//
 bool send_data = false;
 
 //***** Creamos el objeto del sensor BME280 *****//
@@ -152,5 +152,8 @@ Adafruit_BME280 bme;
 
 //***** Esta variable almacena la razon por la que el ESP32 ha despertado *****//
 esp_sleep_wakeup_cause_t wakeup_reason;
+
+//***** Esta variable almacena la razon por la que el ESP32 se ha iniciado o reiniciado *****//
+esp_reset_reason_t reason_restart;
 
 #endif //_CONFIG_H
